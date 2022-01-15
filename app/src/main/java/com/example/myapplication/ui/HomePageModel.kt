@@ -22,4 +22,13 @@ class HomePageModel : ViewModel() {
 
     val getValue : LiveData<String> = _list
 
+    fun updateImage(){
+        Repo.getImage(object: NetworkInterface{
+            override fun feedBack(url: String) {
+                _list.postValue(url)
+            }
+
+        })
+    }
+
 }

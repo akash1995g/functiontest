@@ -51,6 +51,8 @@ class HomePage : AppCompatActivity() {
 
         btn.setOnClickListener {
 
+            viewProvider?.updateImage()
+
         }
 
 
