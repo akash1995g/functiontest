@@ -7,11 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.R
-import com.example.myapplication.databinding.HomepageBinding
-import kotlinx.coroutines.*
-import java.net.HttpURLConnection
+import com.example.myapplication.network.NetworkCalls
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Response
 import java.util.concurrent.locks.ReentrantLock
-import kotlin.concurrent.withLock
 
 private const val TAG = "HomePage"
 
@@ -38,7 +41,6 @@ class HomePage : AppCompatActivity() {
         })
 
         val btn: Button = findViewById(R.id.btn)
-        btn.text = "Click"
 
         btn.setOnClickListener {
             testCoroutine()
@@ -48,12 +50,31 @@ class HomePage : AppCompatActivity() {
     }
 
     private fun testCoroutine() {
+        log("Clicked")
+        scope.launch(Dispatchers.IO) {
 
+            val callback = NetworkCalls.getAPIService()?.getRandomDog()
+
+            callback?.enqueue(object : retrofit2.Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>?,
+                    response: Response<ResponseBody>?
+                ) {
+                    log(response?.code().toString())
+                }
+
+                override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+                    log(t?.message)
+                }
+
+            })
+
+        }
 
     }
 
 
-    private fun log(message: String) {
+    private fun log(message: String?) {
         Log.d(TAG, "log: $message")
     }
 
