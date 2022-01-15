@@ -3,15 +3,18 @@ package com.example.myapplication.ui
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.network.NetworkCalls
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
 import java.util.concurrent.locks.ReentrantLock
@@ -34,45 +37,24 @@ class HomePage : AppCompatActivity() {
 
         viewProvider = ViewModelProvider(this).get(HomePageModel::class.java)
 
+        val btn: Button = findViewById(R.id.btn)
+        val image: ImageView = findViewById(R.id.image)
+
         viewProvider?.getValue?.observe(this, Observer {
             it?.let {
+
                 Log.d(TAG, "onCreate: $it")
+                Glide.with(this).load(it).into(image)
+
             }
         })
 
-        val btn: Button = findViewById(R.id.btn)
-
         btn.setOnClickListener {
-            testCoroutine()
+
         }
 
 
     }
-
-    private fun testCoroutine() {
-        log("Clicked")
-        scope.launch(Dispatchers.IO) {
-
-            val callback = NetworkCalls.getAPIService()?.getRandomDog()
-
-            callback?.enqueue(object : retrofit2.Callback<ResponseBody> {
-                override fun onResponse(
-                    call: Call<ResponseBody>?,
-                    response: Response<ResponseBody>?
-                ) {
-                    log(response?.code().toString())
-                }
-
-                override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
-                    log(t?.message)
-                }
-
-            })
-
-        }
-
-    }
-
 
     private fun log(message: String?) {
         Log.d(TAG, "log: $message")
