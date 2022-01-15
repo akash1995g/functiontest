@@ -1,6 +1,7 @@
 package com.example.myapplication.repository
 
 import com.example.myapplication.`interface`.NetworkInterface
+import com.example.myapplication.dao.Result
 import com.example.myapplication.network.NetworkCalls
 import com.example.myapplication.utils.Utils
 import kotlinx.coroutines.CoroutineScope
@@ -23,24 +24,23 @@ class Repo {
 
                 val callback = NetworkCalls.getAPIService()?.getRandomDog()
 
-                callback?.enqueue(object : retrofit2.Callback<ResponseBody> {
+                callback?.enqueue(object : retrofit2.Callback<Result> {
                     override fun onResponse(
-                        call: Call<ResponseBody>?,
-                        response: Response<ResponseBody>?
+                        call: Call<Result>?,
+                        response: Response<Result>?
                     ) {
                         response?.let {
 
                             if (response.isSuccessful) {
-                                val result = response.body().string()
-                                val json = JSONObject(result)
-                                val url = json.getString("message")
-                                Utils.log(url)
-                                listener.feedBack(url)
+                                val result = response.body()
+                                result?.let {
+                                    listener.feedBack(it.result)
+                                }
                             }
                         }
                     }
 
-                    override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+                    override fun onFailure(call: Call<Result>?, t: Throwable?) {
                         Utils.log(t?.message)
                     }
 
