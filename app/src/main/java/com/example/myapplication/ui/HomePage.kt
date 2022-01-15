@@ -36,6 +36,7 @@ class HomePage : AppCompatActivity() {
             it?.let {
 
                 Log.d(TAG, "onCreate: ${it}")
+                binding.apiResult = it
                // Glide.with(this).load(it).into(binding.image)
 
             }
@@ -46,8 +47,6 @@ class HomePage : AppCompatActivity() {
             viewProvider?.updateImage()
 
         }
-
-        binding.apiResult = ApiResult("Stts","ok")
 
     }
 
