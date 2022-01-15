@@ -2,21 +2,16 @@ package com.example.myapplication.ui
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
-import com.example.myapplication.network.NetworkCalls
+import com.example.myapplication.dao.ApiResult
+import com.example.myapplication.databinding.HomepageBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import okhttp3.ResponseBody
-import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Response
 import java.util.concurrent.locks.ReentrantLock
 
 private const val TAG = "HomePage"
@@ -31,30 +26,28 @@ class HomePage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //  https://dog.ceo/api/breeds/image/random
+        val binding = DataBindingUtil
+            .setContentView<HomepageBinding>(this, R.layout.homepage)
 
-        setContentView(R.layout.homepage)
-
-        viewProvider = ViewModelProvider(this).get(HomePageModel::class.java)
-
-        val btn: Button = findViewById(R.id.btn)
-        val image: ImageView = findViewById(R.id.image)
+        viewProvider = ViewModelProvider(this)
+            .get(HomePageModel::class.java)
 
         viewProvider?.getValue?.observe(this, Observer {
             it?.let {
 
-                Log.d(TAG, "onCreate: $it")
-                Glide.with(this).load(it).into(image)
+                Log.d(TAG, "onCreate: ${it}")
+               // Glide.with(this).load(it).into(binding.image)
 
             }
         })
 
-        btn.setOnClickListener {
+        binding.btn.setOnClickListener {
 
             viewProvider?.updateImage()
 
         }
 
+        binding.apiResult = ApiResult("Stts","ok")
 
     }
 
