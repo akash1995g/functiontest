@@ -6,13 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.dao.ApiResult
 import com.example.myapplication.databinding.HomepageBinding
 import com.example.myapplication.network.NetworkCalls
 import com.example.myapplication.utils.Utils
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Response
 import java.util.concurrent.locks.ReentrantLock
@@ -25,7 +26,7 @@ class HomePage : AppCompatActivity() {
 
     var viewProvider: HomePageModel? = null
 
-    val scope = CoroutineScope(Dispatchers.Main)
+    private val scope = CoroutineScope(Dispatchers.Main)
     val lock = ReentrantLock()
 
     override fun onCreate(savedInstanceState: Bundle?) {
