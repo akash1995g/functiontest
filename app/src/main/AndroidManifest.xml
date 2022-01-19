@@ -25,7 +25,7 @@
         </activity>
 
         <service
-            android:name=".service.MyService"
+            android:name=".service.MyJobIntentService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 

@@ -8,11 +8,15 @@ import java.lang.Exception
 
 private const val TAG = "MyService"
 
-class MyService : JobIntentService() {
+// JobService
+// Service
+// IntentService
+
+class MyJobIntentService : JobIntentService() {
 
     companion object {
         fun enqueueWork(context: Context, intent: Intent) {
-            enqueueWork(context, MyService::class.java, 1, intent)
+            enqueueWork(context, MyJobIntentService::class.java, 1, intent)
 
         }
     }

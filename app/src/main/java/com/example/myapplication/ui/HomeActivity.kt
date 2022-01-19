@@ -26,8 +26,9 @@ class HomeActivity : AppCompatActivity() {
         }
         this.registerReceiver(broadcastReceivers, intentFilter)
 
-    }
 
+
+    }
 
     override fun onDestroy() {
         super.onDestroy()
