@@ -15,6 +15,11 @@ class NotificationHandler {
 
         private const val channelID = "notification"
         fun getNotification(context: Context): Notification? {
+
+
+            val notificationManager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
             val notificationHandler = NotificationCompat.Builder(context, channelID)
             val notification = notificationHandler.setContentTitle("Notification Title")
                 .setContentText("Notification message")
@@ -24,17 +29,16 @@ class NotificationHandler {
                 .build()
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                createNotificationChannel(context)
+                createNotificationChannel(notificationManager)
             }
+
+            notificationManager.notify(1, notification)
             return notification
 
         }
 
         @RequiresApi(Build.VERSION_CODES.O)
-        private fun createNotificationChannel(context: Context) {
-
-            val notificationManager =
-                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        private fun createNotificationChannel(notificationManager: NotificationManager) {
 
 
             val channel = NotificationChannel(
