@@ -11,6 +11,7 @@ private const val TAG = "MyService"
 // JobService
 // Service
 // IntentService
+// JobIntentService
 
 class MyJobIntentService : JobIntentService() {
 
