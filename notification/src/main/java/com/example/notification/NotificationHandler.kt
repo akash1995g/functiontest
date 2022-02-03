@@ -32,6 +32,7 @@ class NotificationHandler {
                 this.priority = NotificationCompat.PRIORITY_HIGH
                 this.setSmallIcon(imageResource)
                 this.setContentIntent(pendingIntent)
+                this.addAction(imageResource, "Reply", pendingIntent)
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
