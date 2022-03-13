@@ -2,8 +2,11 @@ package com.example.myapplication.utils
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import androidx.databinding.BindingConversion
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
+import java.text.SimpleDateFormat
+import java.util.*
 
 object CommonFunction {
 
@@ -27,4 +30,6 @@ fun ImageView.load(url: String) {
 fun loadImage(imageView: ImageView, url: String) {
     imageView.load(url)
 }
+
+
 
